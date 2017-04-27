@@ -52,4 +52,12 @@ public class RepertoryService {
         message.setPage(pages);
         return message;
     }
+    //获得商品键值
+    public Message getRepertoryKeyValue() throws SQLException {
+        //生成消息对象
+        Message message=new Message();
+        message.setList(repertoryDaoImp.getRepertoryKeyValue());
+        message.setResult(true);
+        return message;
+    }
 }

@@ -29,7 +29,12 @@
     <link rel="stylesheet" href="../plugins/daterangepicker/daterangepicker.css">
     <!-- bootstrap wysihtml5 - text editor -->
     <link rel="stylesheet" href="../plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
-
+    <style>
+        table
+        {
+            text-align:center;vertical-align:middle;
+        }
+    </style>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 </head>
@@ -323,16 +328,16 @@
                 <li class="treeview">
                     <a href="#">
                         <i class="fa fa-files-o"></i>
-                        <span>Layout Options</span>
+                        <span>销售管理</span>
                         <span class="pull-right-container">
-                            <span class="label label-primary pull-right">4</span>
+                            <i class="fa fa-shopping-cart pull-right"></i>
                         </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="pages/layout/top-nav.html"><i class="fa fa-circle-o"></i> Top Navigation</a></li>
-                        <li><a href="pages/layout/boxed.html"><i class="fa fa-circle-o"></i> Boxed</a></li>
-                        <li><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i> Fixed</a></li>
-                        <li><a href="pages/layout/collapsed-sidebar.html"><i class="fa fa-circle-o"></i> Collapsed Sidebar</a></li>
+                        <li onclick="loadPages('/market/pages/sellManagement/selling.html',this)"><a href="#"><i class="fa fa-circle-o"></i> 销售平台</a></li>
+                        <li><a href="#"><i class="fa fa-circle-o"></i> Boxed</a></li>
+                        <li><a href="#"><i class="fa fa-circle-o"></i> Fixed</a></li>
+                        <li><a href="#"><i class="fa fa-circle-o"></i> Collapsed Sidebar</a></li>
                     </ul>
                 </li>
                 <li class="treeview">
@@ -340,7 +345,7 @@
                         <i class="fa fa-pie-chart"></i>
                         <span>仓库管理</span>
                         <span class="pull-right-container">
-                            <i class="fa fa-angle-left pull-right"></i>
+                            <i class="fa fa-truck pull-right"></i>
                         </span>
                     </a>
                     <ul class="treeview-menu">

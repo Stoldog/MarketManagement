@@ -5,6 +5,7 @@ import com.stoldog.entity.SellsSerial;
 import com.stoldog.utils.DataSourceUtils;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanHandler;
+import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.springframework.stereotype.Repository;
 
 import java.sql.SQLException;
@@ -46,11 +47,10 @@ public class SellDaoImp extends CommonDaoImp{
         return queryRunner.batch(sql,params);
     }
     //查询By批次号
-/*
-    public List<Sells> getSellsBySerialNo(SellsSerial sellsSerial){
+    public List<Sells> getSellsBySerialNo(SellsSerial sellsSerial) throws SQLException {
         QueryRunner queryRunner=new QueryRunner(DataSourceUtils.getDataSource());
         String sql="select * from sells where sellSerial=?";
-
+        return queryRunner.query(sql,new BeanListHandler<Sells>(Sells.class),sellsSerial.getSellSerial());
     }
-*/
+
 }

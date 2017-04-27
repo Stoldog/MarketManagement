@@ -9,6 +9,7 @@ import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.ArrayListHandler;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.apache.commons.dbutils.handlers.MapListHandler;
 import org.springframework.stereotype.Repository;
 
 import java.sql.SQLException;
@@ -58,7 +59,26 @@ public class RepertoryDaoImp extends CommonDaoImp{
         }
         return queryRunner.batch(sql,params);
     }
-    //通过批次查询某批次货物
+    //查询所有货物
+    public List<RepertoryList> getAllRepertory() throws SQLException {
+        QueryRunner queryRunner=new QueryRunner(DataSourceUtils.getDataSource());
+        String sql="SELECT  repertory.productId,product_info.productName,repertory.productSerialNo,repertory.enterSerialNo,product_info.marketPrice,product_info.productType,product_info.effectTime,repertory.productTime,repertory.productNum FROM repertory,product_info WHERE repertory.productId=product_info.pid;";
+        return queryRunner.query(sql,new BeanListHandler<RepertoryList>(RepertoryList.class));
+    }
+    //获得货物的键值
+    public List getRepertoryKeyValue() throws SQLException{
+        QueryRunner queryRunner=new QueryRunner(DataSourceUtils.getDataSource());
+        String sql="SELECT repertory.productSerialNo,product_info.productName FROM repertory,product_info WHERE repertory.productId=product_info.pid";
+        return queryRunner.query(sql,new MapListHandler());
+    }
+    //通过序列号查询货物
+    public List<RepertoryList> getRepertoryByProductSerial(Integer productSerialNo) throws SQLException {
+        QueryRunner queryRunner=new QueryRunner(DataSourceUtils.getDataSource());
+        String sql="SELECT  repertory.productId,product_info.productName,repertory.productSerialNo,repertory.enterSerialNo,product_info.marketPrice,product_info.productType,product_info.effectTime,repertory.productTime,repertory.productNum FROM repertory,product_info WHERE repertory.productId=product_info.pid and repertory.productSerialNo=?;";
+        return queryRunner.query(sql,new BeanListHandler<RepertoryList>(RepertoryList.class),productSerialNo);
+
+    }
+    //查询某批次货物
     public List<RepertoryList> getRepertoryByEnterSerialNo(Repertory repertory,Pages pages) throws SQLException {
         QueryRunner queryRunner=new QueryRunner(DataSourceUtils.getDataSource());
         String sql="SELECT  repertory.productId,product_info.productName,repertory.productSerialNo,repertory.enterSerialNo,product_info.marketPrice,product_info.productType,product_info.effectTime,repertory.productTime,repertory.productNum FROM repertory,product_info WHERE repertory.productId=product_info.pid and repertory.enterSerialNo=?  LIMIT ?,?;";

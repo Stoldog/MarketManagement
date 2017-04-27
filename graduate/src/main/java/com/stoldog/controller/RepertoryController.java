@@ -37,4 +37,9 @@ public class RepertoryController {
         System.out.println(repertory);
         return repertoryService.getRepertoryList(pages,repertory);
     }
+    //获得销售键值
+    @RequestMapping(value = {"/getRepertoryKeyValue"},method = {RequestMethod.GET})
+    public Message getRepertoryKeyAndValue() throws SQLException {
+        return repertoryService.getRepertoryKeyValue();
+    }
 }

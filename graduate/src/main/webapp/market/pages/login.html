@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--bootstrap-3.3.7-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../plugins/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../plugins/adminlte/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="../plugins/adminlte/css/skins/_all-skins.min.css">
+</head>
+<body>
+    <div class="container">
+            <div class="form-group">
+                <label>用户名：</label>
+                <input type="text" class="form-control" name="username" id="username"/>
+            </div>
+            <div class="form-group">
+                <label>密码：</label>
+                <input type="password" class="form-control" name="password" id="password"/>
+            </div>
+            <button class="btn btn-info" id="getLoginBtn">登录</button>
+    </div>
+
+</body>
+    <!--jquery-->
+    <script src="../js/jquery-3.1.1.min.js"></script>
+    <!--bootstrap-->
+    <script src="../plugins/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <!--adminLTE-->
+    <script src="../plugins/adminlte/js/app.min.js"></script>
+    <script src="../plugins/adminlte/js/pages/dashboard2.js"></script>
+    <script src="../plugins/adminlte/js/demo.js"></script>
+    <script>
+        $("#getLoginBtn").on("click",function () {
+            var data={
+                "username":$("#username").val(),
+                "password":$("#password").val()
+            };
+
+            console.log(data);
+            $.ajax("/manage/login",{
+                method:"POST",
+                contentType:"application/json; charset=UTF-8",
+                data:JSON.stringify(data),
+                success:function (res) {
+                    console.log(res);
+                    if (res.result) {
+                        var baseUrl = location.protocol + "//" + location.hostname + ":" + location.port + "/";
+                        window.location.href = baseUrl + "market/pages/index.html";
+                    }
+                },
+                error:function (res) {
+                    console.log(res);
+                }
+            });
+        });
+    </script>
+</html>

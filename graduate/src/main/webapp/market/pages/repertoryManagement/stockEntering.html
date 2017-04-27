@@ -1,0 +1,172 @@
+<div class="row">
+    <div class="col-md-6">
+        <div class="box box-info">
+            <div class="box-header with-border">
+                <div class="pull-left">
+                </div>
+                <h3 class="box-title">进货录入</h3>
+            </div>
+            <div class="box-body">
+                <div id="addForm">
+                    <div class="col-md-12">
+                        <label>商品编号:</label>
+                        <input id="productId" class="form-control" onchange="getProductName(this)" list="productList" />
+                        <datalist id="productList">
+
+                        </datalist>
+                    </div>
+                    <div class="col-md-12">
+                        <label >商品名称:</label>
+                        <input class="form-control" type="text" readonly="readonly" id="productName">
+                    </div>
+                    <input  type="hidden" id="effectTime" >
+                    <div class="col-md-12">
+                        <label >生产时间:</label>
+                        <input class="form-control" type="date" id="productTime">
+                    </div>
+                    <div class="col-md-12">
+                        <label>商品流水号:</label>
+                        <input class="form-control" type="text" id="productSerialNo" placeholder="请输入商品流水号">
+                    </div>
+                    <div class="col-md-12">
+                        <label >商品数量</label>
+                        <input class="form-control" type="number" id="productNum" placeholder="请输入商品数量">
+                    </div>
+                    <div class="col-md-12">
+                        <button id="getBatchButton" onclick="addWaitTable()" class="btn btn-success"><i class="glyphicon glyphicon-sort-by-attributes"></i>添加录入</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="box box-info">
+            <div class="box-header with-border">
+                <div class="pull-left">
+                </div>
+                <h3 class="box-title">仓库货物批量录入</h3>
+            </div>
+            <div class="box-body" >
+                <div class="table-responsive" style="max-height: 591px;">
+                    <table class="table table-hover" style="text-align:center;">
+                        <thead id="waitTableHead">
+                        <th>
+                            <input type="checkbox" onclick="checkAll(this)" checked="true"/>
+                        </th>
+                        <th>
+                            <button class="btn btn-link" title="商品编号" data-toggle="tooltip" data-placement="top" style="color: #333333;font-weight: bold;font-family:微软雅黑;">
+                                商品编号
+                            </button>
+                        </th>
+                        <th>
+                            <button class="btn btn-link" title="商品名称" data-toggle="tooltip" data-placement="top" style="color: #333333;font-weight: bold;font-family:微软雅黑;">
+                                商品名称
+                            </button>
+                        </th>
+                        <th>
+                            <button class="btn btn-link" title="商品流水号" data-toggle="tooltip" data-placement="top" style="color: #333333;font-weight: bold;font-family:微软雅黑;">
+                                商品流水号
+                            </button>
+                        </th>
+                        <th>
+                            <button class="btn btn-link" title="保质期" data-toggle="tooltip" data-placement="top" style="color: #333333;font-weight: bold;font-family:微软雅黑;">
+                                保质期
+                            </button>
+                        </th>
+                        <th>
+                            <button class="btn btn-link" title="生产时间" data-toggle="tooltip" data-placement="top" style="color: #333333;font-weight: bold;font-family:微软雅黑;">
+                                生产时间
+                            </button>
+                        </th>
+                        <th>
+                            <button class="btn btn-link" title="商品数量" data-toggle="tooltip" data-placement="top" style="color: #333333;font-weight: bold;font-family:微软雅黑;">
+                                商品数量
+                            </button>
+                        </th>
+                        </thead>
+                        <tbody id="waitTableBody">
+
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+            <div class="box-footer">
+                <div class="col-md-12">
+                    <button class="btn btn-success" onclick="addBatch()">批量录入</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        //发送请求获得商品列表
+        $.ajax("/product/getInfoData",{
+            method:"GET",
+            contentType:"application/json; charset=UTF-8",
+            success:function (res) {
+                console.log(res);
+                //删除之前节点
+                $(res.list).each(function () {
+                    $("#productList").append("<option value='"+this.pid+"' onclick='getLabel(this)' label='"+this.productName+"'></option>");
+                });
+            }
+        });
+    });
+    function getProductName(getP) {
+        var productId=$(getP).val();
+        $.ajax("/product/getInfo/"+productId,{
+            method:"GET",
+            contentType:"application/json; charset=UTF-8",
+            success:function (res) {
+                $("#productName").val(res.object.productName);
+                $("#effectTime").val(res.object.effectTime);
+
+            }
+        });
+    }
+    function getLabel(getL) {
+        console.log($(getL).attr("label"));
+        $("#productName").val($(getL).attr("label"));
+    }
+    function addWaitTable() {
+        var sendData={
+            "productId":$("#productId").val(),
+            "productName":$("#productName").val(),
+            "productTime":$("#productTime").val(),
+            "effectTime":$("#effectTime").val(),
+            "productSerialNo":$("#productSerialNo").val(),
+            "productNum":$("#productNum").val()
+        };
+
+        $("#waitTableBody").append("<tr><td><input type='checkbox' checked='checked' value='"+JSON.stringify(sendData)+"'></td><td>"+sendData.productId+"</td><td>"+sendData.productName+"</td><td>"+sendData.productSerialNo+"</td><td>"+sendData.effectTime+"</td><td>"+sendData.productTime+"</td><td>"+sendData.productNum+"</td></tr>");
+    }
+    function checkAll(getCheckBox) {
+        var isChecked = $(getCheckBox).prop('checked');
+        $("tr td").find("input").prop("checked", isChecked);
+    }
+    function addBatch() {
+        var batchData=[];
+        //var date=new Date().toLocaleDateString().replace(/\//g,"-");
+        var date=new Date().getTime();
+        $("#waitTableBody").find("input").each(function () {
+            if($(this).prop("checked")){
+                var bData=JSON.parse($(this).val());
+                batchData.push(bData);
+            }
+        });
+
+        console.log(batchData);
+        //发送请求
+        $.ajax("/repertory/addStock/"+date,{
+            method:"POST",
+            contentType:"application/json; charset=UTF-8",
+            data:JSON.stringify(batchData),
+            success:function (res) {
+                console.log(res);
+                loadPages("/market/pages/repertoryManagement/stockEntering.html","进货货物录入");
+            }
+        });
+    }
+</script>

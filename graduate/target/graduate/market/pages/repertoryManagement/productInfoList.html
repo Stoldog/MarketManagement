@@ -1,0 +1,137 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-info collapsed-box">
+            <div class="box-header with-border">
+                <div class="col-md-12">
+                    <div class="pull-left">
+                        <button id="batchEnterButton" onclick="getProductInfo(1)" class="btn btn-success">查询</button>
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
+                    </div>
+                    <h3 class="box-title">商品信息列表</h3>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="col-md-3">
+                    <label>商品类型:</label>
+                    <select id="productType" class="form-control select2">
+
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label>生产厂家:</label>
+                    <input id="productCompany" type="text" class="form-control" placeholder="可输入生产厂家...">
+                </div>
+            </div>
+            <div class="box">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead id="pInfoThead">
+                        <th>
+                            <button class="btn btn-link" title="商品名称" data-toggle="tooltip" data-placement="top" style="color: #333333;font-weight: bold;font-family:微软雅黑;">
+                                商品名称
+                            </button>
+                        </th>
+                        <th>
+                            <button class="btn btn-link" title="商品的单位" data-toggle="tooltip" data-placement="top" style="color: #333333;font-weight: bold;font-family:微软雅黑;">
+                                单位
+                            </button>
+                        </th>
+                        <th>
+                            <button class="btn btn-link" title="商品进货价" data-toggle="tooltip" data-placement="top" style="color: #333333;font-weight: bold;font-family:微软雅黑;">
+                                进货价
+                            </button>
+                        </th>
+                        <th>
+                            <button class="btn btn-link" title="商品销售价" data-toggle="tooltip" data-placement="top" style="color: #333333;font-weight: bold;font-family:微软雅黑;">
+                                销售价
+                            </button>
+                        </th>
+                        <th>
+                            <button class="btn btn-link" title="商品类型" data-toggle="tooltip" data-placement="top" style="color: #333333;font-weight: bold;font-family:微软雅黑;">
+                                商品类型
+                            </button>
+                        </th>
+                        <th>
+                            <button class="btn btn-link" title="保质期（月）" data-toggle="tooltip" data-placement="top" style="color: #333333;font-weight: bold;font-family:微软雅黑;">
+                                保质期
+                            </button>
+                        </th>
+                        <th>
+                            <button class="btn btn-link" title="产地" data-toggle="tooltip" data-placement="top" style="color: #333333;font-weight: bold;font-family:微软雅黑;">
+                                产地
+                            </button>
+                        </th>
+                        <th>
+                            <button class="btn btn-link" title="管理" data-toggle="tooltip" data-placement="top" style="color: #333333;font-weight: bold;font-family:微软雅黑;">
+                                管理
+                            </button>
+                        </th>
+                        </thead>
+                        <tbody id="pInfoTbody">
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        //发送请求获得商品类型
+        $.ajax("/product/getType",{
+            method:"GET",
+            contentType:"application/json; charset=UTF-8",
+            success:function (res) {
+                console.log(res);
+                //删除之前节点
+                $("#productType").find("option").remove();
+                $(res.list).each(function () {
+                    $("#productType").append("<option value='"+this.typeValue+"'>"+this.typeName+"</option>");
+                });
+            }
+        });
+        //默认发送
+        getProductInfo(1,1);
+    });
+    //生成列表
+    function getProductInfo(curPage) {
+        var productType=$("#productType").val();
+        var productCompany=$("#productCompany").val();
+        var pType;
+        if(productType!=0&&productCompany==""){
+            pType=2;
+        }else if(productType==0&&productCompany!=""){
+            pType=3;
+        }else {
+            pType=1;
+        }
+        var obj={
+            "productType":productType,
+            "productCompany":productCompany
+        };
+        console.log(obj);
+        $.ajax("/product/getInfo/"+pType+"/"+curPage,{
+            method:"POST",
+            contentType:"application/json; charset=UTF-8",
+            data:JSON.stringify(obj),
+            success:function (res) {
+                console.log(res);
+                //清除以前的节点
+                $("#pInfoTbody").find("tr").remove();
+                //生成新的子节点
+                $(res.list).each(function () {
+                    $("#pInfoTbody").append("<tr><td>"+this.productName+"</td><td>"+this.productUnit+"</td><td>"+this.stockPrice+"元</td><td>"+this.marketPrice+"元</td><td>"+this.productType+"</td><td>"+this.effectTime+"个月</td><td>"+this.productCity+"</td><td><div class='btn-group'><button class='btn btn-info' onclick='setProductInfo("+JSON.stringify(this)+")'><i></i>修改</button><button class='btn btn-danger' onclick='delProductInfo("+JSON.stringify(this)+")'><i></i>删除</button></div></td></tr>");
+                });
+            }
+        });
+    }
+    //修改信息
+    function setProductInfo(getSet) {
+
+    }
+    //删除信息
+    function delProductInfo(getDel) {
+
+    }
+</script>

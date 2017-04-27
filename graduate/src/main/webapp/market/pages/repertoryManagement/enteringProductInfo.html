@@ -1,0 +1,222 @@
+<div class="row">
+    <div class="col-md-6">
+        <div class="box box-info">
+            <div class="box-header with-border">
+                <div class="pull-left">
+                </div>
+                <h3 class="box-title">商品信息录入</h3>
+            </div>
+            <div class="box-body">
+                <div id="addForm">
+                    <div class="col-md-12">
+                        <label for="productName">商品名称:</label>
+                        <input class="form-control" type="text" id="productName" placeholder="请输入商品名称">
+                    </div>
+                    <div class="col-md-12">
+                        <label for="productName">进货价:</label>
+                        <div class="input-group">
+                            <span class="input-group-addon">￥</span>
+                            <input class="form-control" type="text" id="stockPrice" placeholder="请输入进货价">
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <label for="productName">销售价:</label>
+                        <div class="input-group">
+                            <span class="input-group-addon">￥</span>
+                            <input class="form-control" type="text" id="marketPrice" placeholder="请输入进货价">
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <label for="productName">计量单位:</label>
+                        <input class="form-control" type="text" id="productUnit" placeholder="计量单位">
+                    </div>
+                    <div class="col-md-12">
+                        <label for="productName">保质期(月):</label>
+                        <input class="form-control" type="number" id="effectTime" placeholder="保质期">
+                    </div>
+                    <div class="col-md-12">
+                        <label for="productName">生产厂家:</label>
+                        <input class="form-control" type="text" id="productCompany" placeholder="生产厂家">
+                    </div>
+                    <div class="col-md-12">
+                        <label>商品类型:</label>
+                        <select id="productType" class="form-control select2">
+
+                        </select>
+                    </div>
+                    <div class="col-md-12">
+                        <label>生产地:</label>
+                        <input type="text" id="productCity" class="form-control"/>
+                        <!--<div id="distpicker" data-toggle="distpicker">
+                            <select id="province" data-province="湖南省"></select>
+                            <select id="city" data-city="长沙市"></select>
+                            <select id="county" data-district="芙蓉区"></select>                        </div>
+                        </div>-->
+                    </div>
+
+                <div class="col-md-12">
+                    <button id="getSingleButton" onclick="addInfoTable()" class="btn btn-info"><i class="glyphicon glyphicon-open"></i>直接录入</button>
+                    <button id="getBatchButton" onclick="addWaitTable()" class="btn btn-success"><i class="glyphicon glyphicon-sort-by-attributes"></i>添加录入</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="col-md-6">
+        <div class="box box-info">
+            <div class="box-header with-border">
+                <div class="pull-left">
+                </div>
+                <h3 class="box-title">商品信息批量录入</h3>
+            </div>
+            <div class="box-body" >
+                <div class="table-responsive" style="max-height: 591px;">
+                    <table class="table table-hover">
+                        <thead id="waitTableHead">
+                        <th>
+                            <input type="checkbox" onclick="checkAll(this)" checked="true"/>
+                        </th>
+                        <th>
+                            <button class="btn btn-link" title="商品名称" data-toggle="tooltip" data-placement="top" style="color: #333333;font-weight: bold;font-family:微软雅黑;">
+                                商品名称
+                            </button>
+                        </th>
+                        <th>
+                            <button class="btn btn-link" title="商品进货价" data-toggle="tooltip" data-placement="top" style="color: #333333;font-weight: bold;font-family:微软雅黑;">
+                                进货价
+                            </button>
+                        </th>
+                        <th>
+                            <button class="btn btn-link" title="商品销售价" data-toggle="tooltip" data-placement="top" style="color: #333333;font-weight: bold;font-family:微软雅黑;">
+                                销售价
+                            </button>
+                        </th>
+                        <th>
+                            <button class="btn btn-link" title="保质期（月）" data-toggle="tooltip" data-placement="top" style="color: #333333;font-weight: bold;font-family:微软雅黑;">
+                                保质期
+                            </button>
+                        </th>
+                        <th>
+                            <button class="btn btn-link" title="商品的单位" data-toggle="tooltip" data-placement="top" style="color: #333333;font-weight: bold;font-family:微软雅黑;">
+                                单位
+                            </button>
+                        </th>
+                        <th>
+                            <button class="btn btn-link" title="产地" data-toggle="tooltip" data-placement="top" style="color: #333333;font-weight: bold;font-family:微软雅黑;">
+                                产地
+                            </button>
+                        </th>
+                        <th>
+                            <button class="btn btn-link" title="生产厂商" data-toggle="tooltip" data-placement="top" style="color: #333333;font-weight: bold;font-family:微软雅黑;">
+                                厂商
+                            </button>
+                        </th>
+                        </thead>
+                        <tbody id="waitTableBody">
+
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+            <div class="box-footer">
+                <div class="col-md-12">
+                    <button class="btn btn-success" onclick="addBatch()">批量录入</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        //发送请求获得商品类型
+        $.ajax("/product/getType",{
+            method:"GET",
+            contentType:"application/json; charset=UTF-8",
+            success:function (res) {
+                console.log(res);
+                //删除之前节点
+                $("#productType").find("option").remove();
+                $(res.list).each(function () {
+                    $("#productType").append("<option value='"+this.typeValue+"'>"+this.typeName+"</option>");
+                });
+            }
+        });
+    });
+
+    function addInfoTable() {
+        $("#addForm").find("input").each(function () {
+            if($(this).val()==null){
+                alertWarning("请检查表单是否为空！")
+                return;
+            }
+        });
+        var sendDataList=[];
+        var sendData={
+            "productName":$("#productName").val(),
+            "stockPrice":$("#stockPrice").val(),
+            "effectTime":$("#effectTime").val(),
+            "productType":$("#productType").val(),
+            "marketPrice":$("#marketPrice").val(),
+            "productUnit":$("#productUnit").val(),
+            "productCity":$("#productCity").val(),
+            "productCompany":$("#productCompany").val()
+        };
+        sendDataList.push(sendData);
+
+        //发送请求
+        $.ajax("/product/addInfo",{
+            method:"POST",
+            contentType:"application/json; charset=UTF-8",
+            data:JSON.stringify(sendDataList),
+            success:function (res) {
+                console.log(res);
+
+                loadPages("/market/pages/enteringProductInfo.html","商品信息录入")
+            },
+            error:function (res) {
+                alertWarning(res.message);
+            }
+        });
+
+    }
+    function addWaitTable() {
+        var sendData={
+            "productName":$("#productName").val(),
+            "stockPrice":$("#stockPrice").val(),
+            "effectTime":$("#effectTime").val(),
+            "productType":$("#productType").val(),
+            "marketPrice":$("#marketPrice").val(),
+            "productUnit":$("#productUnit").val(),
+            "productCity":$("#productCity").val(),
+            "productCompany":$("#productCompany").val()
+        };
+
+        $("#waitTableBody").append("<tr><td><input type='checkbox' value='"+JSON.stringify(sendData)+"'></td><td>"+sendData.productName+"</td><td>"+sendData.stockPrice+"元</td><td>"+sendData.marketPrice+"元</td><td>"+sendData.effectTime+"个月</td><td>"+sendData.productUnit+"</td><td>"+sendData.productCity+"</td><td>"+sendData.productCompany+"</td></tr>");
+    }
+    function checkAll(getCheckBox) {
+        var isChecked = $(getCheckBox).prop('checked');
+        $("tr td").find("input").prop("checked", isChecked);
+    }
+    function addBatch() {
+        var batchData=[];
+        $("#waitTableBody").find("input").each(function () {
+            if($(this).prop("checked")){
+                var bData=JSON.parse($(this).val());
+                batchData.push(bData);
+            }
+        });
+
+        console.log(batchData);
+        //发送请求
+        $.ajax("/product/addInfo",{
+            method:"POST",
+            contentType:"application/json; charset=UTF-8",
+            data:JSON.stringify(batchData),
+            success:function (res) {
+                console.log(res);
+                loadPages("/market/pages/repertoryManagement/enteringProductInfo.html","商品信息录入");
+            }
+        });
+    }
+</script>

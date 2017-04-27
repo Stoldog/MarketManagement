@@ -1,0 +1,131 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-info collapsed-box">
+            <div class="box-header with-border">
+                <div class="col-md-12">
+                    <div class="pull-left">
+                        <button id="batchEnterButton" onclick="getRepertoryList(1)" class="btn btn-success">查询</button>
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
+                    </div>
+                    <h3 class="box-title">货物库存列表</h3>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="col-md-3">
+                    <label>选择数量(低于此数量):</label>
+                    <input type="number" class="form-control" id="productNum"/>
+                </div>
+                <div class="col-md-3">
+                    <label>进货批次:</label>
+                    <input id="enterSerialNo" type="text" class="form-control" placeholder="可输入进货批次号...">
+                </div>
+            </div>
+            <div class="box">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead id="pInfoThead">
+                        <th>
+                            <button class="btn btn-link" title="商品名称" data-toggle="tooltip" data-placement="top" style="color: #333333;font-weight: bold;font-family:微软雅黑;">
+                                商品名称
+                            </button>
+                        </th>
+                        <th>
+                            <button class="btn btn-link" title="商品流水号" data-toggle="tooltip" data-placement="top" style="color: #333333;font-weight: bold;font-family:微软雅黑;">
+                                商品流水号
+                            </button>
+                        </th>
+                        <th>
+                            <button class="btn btn-link" title="进货批次" data-toggle="tooltip" data-placement="top" style="color: #333333;font-weight: bold;font-family:微软雅黑;">
+                                进货批次
+                            </button>
+                        </th>
+                        <th>
+                            <button class="btn btn-link" title="商品销售价" data-toggle="tooltip" data-placement="top" style="color: #333333;font-weight: bold;font-family:微软雅黑;">
+                                销售价
+                            </button>
+                        </th>
+                        <th>
+                            <button class="btn btn-link" title="商品类型" data-toggle="tooltip" data-placement="top" style="color: #333333;font-weight: bold;font-family:微软雅黑;">
+                                商品类型
+                            </button>
+                        </th>
+                        <th>
+                            <button class="btn btn-link" title="生产时间" data-toggle="tooltip" data-placement="top" style="color: #333333;font-weight: bold;font-family:微软雅黑;">
+                                生产时间
+                            </button>
+                        </th>
+                        <th>
+                            <button class="btn btn-link" title="数量" data-toggle="tooltip" data-placement="top" style="color: #333333;font-weight: bold;font-family:微软雅黑;">
+                                数量
+                            </button>
+                        </th>
+                        <th>
+                            <button class="btn btn-link" title="管理" data-toggle="tooltip" data-placement="top" style="color: #333333;font-weight: bold;font-family:微软雅黑;">
+                                管理
+                            </button>
+                        </th>
+                        </thead>
+                        <tbody id="pInfoTbody">
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script>
+    $(function () {
+        //发送请求获得商品类型
+        $.ajax("/product/getType",{
+            method:"GET",
+            contentType:"application/json; charset=UTF-8",
+            success:function (res) {
+                console.log(res);
+                //删除之前节点
+                $("#productType").find("option").remove();
+                $(res.list).each(function () {
+                    $("#productType").append("<option value='"+this.typeValue+"'>"+this.typeName+"</option>");
+                });
+            }
+        });
+        //默认发送
+        getRepertoryList(1);
+    });
+
+    function getRepertoryList(curPage) {
+        var productNum=$("#productNum").val();
+        var enterSerialNo=$("#enterSerialNo").val();
+        var obj={
+            "productNum":productNum,
+            "enterSerialNo":enterSerialNo
+        };
+        console.log(obj);
+
+        $.ajax("/repertory/getRepertoryList/"+curPage,{
+            method:"POST",
+            contentType:"application/json; charset=UTF-8",
+            data:JSON.stringify(obj),
+            success:function (res) {
+                console.log(res);
+                //清除以前的节点
+                $("#pInfoTbody").find("tr").remove();
+                //生成新的子节点
+                $(res.list).each(function () {
+                    $("#pInfoTbody").append("<tr><td>"+this.productName+"</td><td>"+this.productSerialNo+"</td><td>"+this.enterSerialNo+"</td><td>"+this.marketPrice+"</td><td>"+this.productType+"</td><td>"+this.productTime+"</td><td>"+this.productNum+"</td><td><div class='btn-group'><button class='btn btn-default' onclick='setRepertory("+JSON.stringify(this)+")'><i></i>修改</button><button class='btn btn-info' onclick='detailRepertory("+JSON.stringify(this)+")'><i></i>详情</button><button class='btn btn-danger' onclick='delRepertory("+JSON.stringify(this)+")'><i></i>删除</button></div></td></tr>");
+                });
+            }
+        });
+    }
+
+    function setRepertory(getSet) {
+        console.log(getSet);
+    }
+    function delRepertory(getDel) {
+        console.log(getDel);
+    }
+    function detailRepertory(getDetail) {
+        console.log(getDetail);
+    }
+</script>

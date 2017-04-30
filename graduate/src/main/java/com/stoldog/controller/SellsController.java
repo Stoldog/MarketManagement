@@ -27,17 +27,21 @@ public class SellsController {
     public Message sellingProduct(@PathVariable Long dateTime, @PathVariable Double totalPrice, @RequestBody List<Sells> sellsList, HttpSession httpSession) throws SQLException {
 
         //生产唯一ID并插入批次表
+
+        Integer userID= (Integer) httpSession.getAttribute("USER_ID");
         SellsSerial sellsSerial=new SellsSerial();
         sellsSerial.setSellSerial(sellsService.getUUID());
-        Integer userID= (Integer) httpSession.getAttribute("USER_ID");
-        Integer getRe=sellsService.addSellSerial(sellsSerial.getSellSerial(),userID,dateTime,totalPrice);
-
+        sellsSerial.setSellManId(userID);
+        Integer getRe=sellsService.addSellSerial(sellsSerial.getSellSerial(),sellsSerial.getSellManId(),dateTime,totalPrice);
         //执行销售操作
         if(getRe!=0){
             //新增销售操作
             sellsService.addSellsList(sellsList,sellsSerial);
+
             //删除库存
-            repertoryService.reduceRepertory(userID,);
+            return repertoryService.reduceRepertory(sellsList);
+        } else{
+            return new Message();
         }
 
     }

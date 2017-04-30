@@ -31,18 +31,18 @@ public class SellDaoImp extends CommonDaoImp{
     //将某批次的销售数据插入销售表
     public int[] addSellsBySerialNo(List<Sells> sellsList,SellsSerial sellsSerial) throws SQLException {
         QueryRunner queryRunner=new QueryRunner(DataSourceUtils.getDataSource());
-        String sql="insert info sells (productId,productMarketPrice,sellNum,productTotalPrice,sellSerial,productSerialNo) values(?,?,?,?,?,?,?)";
+        String sql="INSERT INTO sells (productId,productMarketPrice,sellNum,productTotalPrice,sellSerial,productSerialNo) VALUES(?,?,?,?,?,?)";
         Integer listlength=sellsList.size();
         Object[][] params=new Object[listlength][];
         //插入参数
-        for(int i=0;i<listlength-1;i++){
+        for(int i=0;i<listlength;i++){
             params[i]=new Object[6];
             params[i][0]=sellsList.get(i).getProductId();
-            params[i][0]=sellsList.get(i).getProductMarketPrice();
-            params[i][0]=sellsList.get(i).getSellNum();
-            params[i][0]=sellsList.get(i).getProductTotalPrice();
-            params[i][0]=sellsSerial.getSellSerial();
-            params[i][0]=sellsList.get(i).getProductSerialNo();
+            params[i][1]=sellsList.get(i).getProductMarketPrice();
+            params[i][2]=sellsList.get(i).getSellNum();
+            params[i][3]=sellsList.get(i).getProductTotalPrice();
+            params[i][4]=sellsSerial.getSellSerial();
+            params[i][5]=sellsList.get(i).getProductSerialNo();
         }
         return queryRunner.batch(sql,params);
     }

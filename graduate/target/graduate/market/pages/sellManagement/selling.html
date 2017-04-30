@@ -58,17 +58,16 @@
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label>实收金额(元):</label>
+                            <label>实收(元):</label>
                             <input type="number" min="0" class="form-control" readonly="readonly" value="0" id="realGet">
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label>找零(元):</label>
+                            <label>应找(元):</label>
                             <input type="number" min="0" value="0" class="form-control" readonly="readonly" id="realGive">
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -101,7 +100,7 @@
                             <input class="form-control" onkeyup="calMoney(this)" type="text" id="realPrice"/>
                         </div>
                         <div class="col-md-12">
-                            <button onclick="" class="btn btn-danger">结清</button>
+                            <button onclick="sellProduct()" class="btn btn-danger">结清</button>
                         </div>
                     </div>
                 </div>
@@ -148,7 +147,7 @@
                     var dataTemp={
                         "productId":this.productId,
                         "productMarketPrice":this.markertPrice,
-                        "sellNum":sellPNum,
+                        "sellNum":parseInt(sellPNum),
                         "productTotalPrice":sellPNum*this.marketPrice,
                         "productSerialNo":this.productSerialNo
                     };
@@ -178,9 +177,20 @@
         //获得所有checkbox下的
         $("tbody tr").find("input").each(function () {
             if($(this).prop("checked")){
-                obj.push($(this).val());
+                obj.push(JSON.parse($(this).val()));
             }
         });
-        console.log()
+        console.log(obj);
+        console.log(realTotal);
+        //发送请求卖出货物
+        /*$.ajax("/sell/sellProduct/"+date+"/"+realTotal,{
+            method:"POST",
+            data:JSON.stringify(obj),
+            contentType:"application/json; charset=UTF-8",
+            success:function (res) {
+                console.log(res);
+
+            }
+        });*/
     }
 </script>

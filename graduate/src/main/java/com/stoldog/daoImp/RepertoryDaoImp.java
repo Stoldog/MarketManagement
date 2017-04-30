@@ -1,9 +1,6 @@
 package com.stoldog.daoImp;
 
-import com.stoldog.entity.Pages;
-import com.stoldog.entity.Repertory;
-import com.stoldog.entity.RepertoryList;
-import com.stoldog.entity.RepertorySerial;
+import com.stoldog.entity.*;
 import com.stoldog.utils.DataSourceUtils;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.ArrayListHandler;
@@ -92,10 +89,20 @@ public class RepertoryDaoImp extends CommonDaoImp{
         return queryRunner.query(sql,new BeanListHandler<RepertoryList>(RepertoryList.class),repertory.getProductNum(),pages.calCurPage(),pages.getPageSize());
     }
     //卖出某个数数量的某种货物
-    public int[] reduceRepertoryNum(List<Repertory> repertoryList,Integer nums) throws SQLException {
+    public int[] reduceRepertoryNum(List<Sells> sellsList) throws SQLException {
         QueryRunner queryRunner=new QueryRunner(DataSourceUtils.getDataSource());
         String sql="UPDATE repertory SET productNum=productNum-? WHERE productSerialNo=? AND productId=?";
-        return queryRunner.batch(sql,repertory.getProductId(),repertory.getProductSerialNo());
+        int listlength=sellsList.size();
+
+        Object [][] params=new Object[listlength][];
+        for (int i=0;i<listlength;i++){
+            params[i]=new Object[3];
+            params[i][0]=sellsList.get(i).getSellNum();
+            params[i][1]=sellsList.get(i).getProductSerialNo();
+            params[i][2]=sellsList.get(i).getProductId();
+        }
+
+        return queryRunner.batch(sql,params);
     }
     //查询货物列表
     public List<RepertoryList> getRepertoryList(Pages pages) throws SQLException {

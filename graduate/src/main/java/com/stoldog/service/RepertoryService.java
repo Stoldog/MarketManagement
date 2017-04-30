@@ -71,11 +71,12 @@ public class RepertoryService {
         return message;
     }
     //卖出货物
-    public void reduceRepertory(Integer productId,Integer productSerialNo,Integer productNum) throws SQLException {
-        Repertory repertory=new Repertory();
-        repertory.setProductId(productId);
-        repertory.setProductSerialNo(productSerialNo);
-
-        repertoryDaoImp.reduceRepertoryNum(repertory,productNum);
+    public Message reduceRepertory(List<Sells> sellsList) throws SQLException {
+        //生成消息对象
+        Message message=new Message();
+        //
+        message.setObject(repertoryDaoImp.reduceRepertoryNum(sellsList));
+        message.setResult(true);
+        return message;
     }
 }

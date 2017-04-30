@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by RL on 2017/4/18.
@@ -72,10 +73,10 @@ public class RepertoryDaoImp extends CommonDaoImp{
         return queryRunner.query(sql,new MapListHandler());
     }
     //通过序列号查询货物
-    public List<RepertoryList> getRepertoryByProductSerial(Integer productSerialNo) throws SQLException {
+    public List getRepertoryByProductSerial(Integer productSerialNo) throws SQLException {
         QueryRunner queryRunner=new QueryRunner(DataSourceUtils.getDataSource());
-        String sql="SELECT  repertory.productId,product_info.productName,repertory.productSerialNo,repertory.enterSerialNo,product_info.marketPrice,product_info.productType,product_info.effectTime,repertory.productTime,repertory.productNum FROM repertory,product_info WHERE repertory.productId=product_info.pid and repertory.productSerialNo=?;";
-        return queryRunner.query(sql,new BeanListHandler<RepertoryList>(RepertoryList.class),productSerialNo);
+        String sql="SELECT  repertory.productId,product_info.productName,repertory.productSerialNo,repertory.enterSerialNo,product_info.marketPrice,product_info.productType,product_info.effectTime,repertory.productTime,repertory.productNum,product_info.productUnit FROM repertory,product_info WHERE repertory.productId=product_info.pid and repertory.productSerialNo=?;";
+        return queryRunner.query(sql,new MapListHandler(),productSerialNo);
 
     }
     //查询某批次货物
@@ -91,10 +92,10 @@ public class RepertoryDaoImp extends CommonDaoImp{
         return queryRunner.query(sql,new BeanListHandler<RepertoryList>(RepertoryList.class),repertory.getProductNum(),pages.calCurPage(),pages.getPageSize());
     }
     //卖出某个数数量的某种货物
-    public int reduceRepertoryNum(Repertory repertory,Integer nums){
+    public int[] reduceRepertoryNum(List<Repertory> repertoryList,Integer nums) throws SQLException {
         QueryRunner queryRunner=new QueryRunner(DataSourceUtils.getDataSource());
-        String sql="";
-        return 1;
+        String sql="UPDATE repertory SET productNum=productNum-? WHERE productSerialNo=? AND productId=?";
+        return queryRunner.batch(sql,repertory.getProductId(),repertory.getProductSerialNo());
     }
     //查询货物列表
     public List<RepertoryList> getRepertoryList(Pages pages) throws SQLException {

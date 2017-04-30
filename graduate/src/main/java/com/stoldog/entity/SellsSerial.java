@@ -5,16 +5,16 @@ package com.stoldog.entity;
  * Created by RL on 2017/4/26.
  */
 public class SellsSerial {
-    private Integer sellSerial;
+    private String sellSerial;
     private Long sellTime;
     private Integer sellManId;
     private Double sellTotalPrice;
 
-    public Integer getSellSerial() {
+    public String getSellSerial() {
         return sellSerial;
     }
 
-    public void setSellSerial(Integer sellSerial) {
+    public void setSellSerial(String sellSerial) {
         this.sellSerial = sellSerial;
     }
 

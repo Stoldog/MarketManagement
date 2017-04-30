@@ -25,8 +25,8 @@ public class SellDaoImp extends CommonDaoImp{
             return queryRunner.update(sql,params);
         } catch (SQLException e) {
             e.printStackTrace();
+            return 0;
         }
-    return 1;
     }
     //将某批次的销售数据插入销售表
     public int[] addSellsBySerialNo(List<Sells> sellsList,SellsSerial sellsSerial) throws SQLException {

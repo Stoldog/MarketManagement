@@ -60,4 +60,22 @@ public class RepertoryService {
         message.setResult(true);
         return message;
     }
+    //获得商品By流水号
+    public Message getRepertoryBySerial(Integer serial) throws SQLException {
+        //定义消息对象
+        Message message=new Message();
+        List list=repertoryDaoImp.getRepertoryByProductSerial(serial);
+        //获取仓库信息
+        message.setList(list);
+        message.setResult(true);
+        return message;
+    }
+    //卖出货物
+    public void reduceRepertory(Integer productId,Integer productSerialNo,Integer productNum) throws SQLException {
+        Repertory repertory=new Repertory();
+        repertory.setProductId(productId);
+        repertory.setProductSerialNo(productSerialNo);
+
+        repertoryDaoImp.reduceRepertoryNum(repertory,productNum);
+    }
 }

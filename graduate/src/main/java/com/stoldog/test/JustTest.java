@@ -6,6 +6,7 @@ import com.stoldog.entity.Pages;
 import com.stoldog.entity.ProductInfo;
 import com.stoldog.entity.RepertorySerial;
 import com.stoldog.entity.User;
+import com.stoldog.service.SellsService;
 import com.stoldog.utils.DataSourceUtils;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanHandler;
@@ -102,7 +103,8 @@ public class JustTest {
             System.out.println(object);
         }
     }
-
     public void te8(){
+        SellsService sellsService=new SellsService();
+        System.out.println(sellsService.getUUID());
     }
 }

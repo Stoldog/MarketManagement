@@ -42,4 +42,9 @@ public class RepertoryController {
     public Message getRepertoryKeyAndValue() throws SQLException {
         return repertoryService.getRepertoryKeyValue();
     }
+    //获得商品信息
+    @RequestMapping(value = {"/getRepertoryBySerial/{serial}"},method = {RequestMethod.GET})
+    public Message getRepertoryBySerial(@PathVariable Integer serial) throws SQLException {
+        return repertoryService.getRepertoryBySerial(serial);
+    }
 }

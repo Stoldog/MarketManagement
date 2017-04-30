@@ -15,7 +15,7 @@ public class Sells {
     private Integer sellManId;
     private Integer sellNum;
     private Double productTotalPrice;
-    private Integer sellSerial;
+    private String sellSerial;
 
     public Integer getSid() {
         return sid;
@@ -73,11 +73,11 @@ public class Sells {
         this.productTotalPrice = productTotalPrice;
     }
 
-    public Integer getSellSerial() {
+    public String getSellSerial() {
         return sellSerial;
     }
 
-    public void setSellSerial(Integer sellSerial) {
+    public void setSellSerial(String sellSerial) {
         this.sellSerial = sellSerial;
     }
 

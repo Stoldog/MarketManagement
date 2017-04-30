@@ -1,76 +1,97 @@
 <div class="row">
     <div class="col-md-12">
-        <div class="box box-danger">
-            <div class="box-header">
-                <form class="form-inline">
-                    <div class="col-md-3 form-group">
-                        <label>商品流水号:</label>
-                        <input type="text" class="form-control" list="sellList" id="sellPNO"/>
-                        <datalist id="sellList">
+        <div class="col-md-8">
+            <div class="box box-danger">
+                <div class="box-header">
+                    商品信息
+                </div>
+                <div class="box-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                            <th>
+                                <button class="btn btn-link" title="商品流水号" data-toggle="tooltip" data-placement="top" style="color: #333333;font-weight: bold;font-family:微软雅黑;">
+                                    商品流水号
+                                </button>
+                            </th>
+                            <th>
+                                <button class="btn btn-link" title="商品名称" data-toggle="tooltip" data-placement="top" style="color: #333333;font-weight: bold;font-family:微软雅黑;">
+                                    商品名称
+                                </button>
+                            </th>
+                            <th>
+                                <button class="btn btn-link" title="销售价" data-toggle="tooltip" data-placement="top" style="color: #333333;font-weight: bold;font-family:微软雅黑;">
+                                    销售单价
+                                </button>
+                            </th>
+                            <th>
+                                <button class="btn btn-link" title="商品数量" data-toggle="tooltip" data-placement="top" style="color: #333333;font-weight: bold;font-family:微软雅黑;">
+                                    商品数量
+                                </button>
+                            </th>
+                            <th>
+                                <button class="btn btn-link" title="商品名称" data-toggle="tooltip" data-placement="top" style="color: #333333;font-weight: bold;font-family:微软雅黑;">
+                                    总金额
+                                </button>
+                            </th>
+                            </thead>
+                            <tbody>
 
-                        </datalist>
+                            </tbody>
+                        </table>
                     </div>
-                    <div class="col-md-3 form-group">
-                        <label>商品数量:</label>
-                        <input type="number" class="form-control" id="sellPNum"/>
+                </div>
+                <div class="box-footer">
+                    <div class="col-md-3">
+                        <h3>总计:</h3>
                     </div>
-                    <div class="col-md-3 form-group">
-                        <button onclick="" class="btn btn-info">添加</button>
+                    <div class="col-md-3">
+                        <h3>实收金额:</h3>
                     </div>
-                </form>
-            </div>
-            <div class="box-body">
-                <div class="table-responsive">
-                    <table class="table table-hover">
-                        <thead>
-                        <th>
-                            <button class="btn btn-link" title="商品流水号" data-toggle="tooltip" data-placement="top" style="color: #333333;font-weight: bold;font-family:微软雅黑;">
-                                商品流水号
-                            </button>
-                        </th>
-                        <th>
-                            <button class="btn btn-link" title="商品名称" data-toggle="tooltip" data-placement="top" style="color: #333333;font-weight: bold;font-family:微软雅黑;">
-                                商品名称
-                            </button>
-                        </th>
-                        <th>
-                            <button class="btn btn-link" title="销售价" data-toggle="tooltip" data-placement="top" style="color: #333333;font-weight: bold;font-family:微软雅黑;">
-                                销售单价
-                            </button>
-                        </th>
-                        <th>
-                            <button class="btn btn-link" title="商品数量" data-toggle="tooltip" data-placement="top" style="color: #333333;font-weight: bold;font-family:微软雅黑;">
-                                商品数量
-                            </button>
-                        </th>
-                        <th>
-                            <button class="btn btn-link" title="商品名称" data-toggle="tooltip" data-placement="top" style="color: #333333;font-weight: bold;font-family:微软雅黑;">
-                                总金额
-                            </button>
-                        </th>
-                        </thead>
-                        <tbody>
+                    <div class="col-md-3">
+                        <h3>找零:</h3>
+                    </div>
 
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="box-footer">
-                <div class="col-md-3">
-                    <h3>总计:</h3>
-                </div>
-                <div class="col-md-3">
-                    <label>实收金额:</label>
-                    <input class="form-control" type="text" id="realPrice"/>
-                </div>
-                <div class="col-md-3">
-                    <h3>找零:</h3>
-                </div>
-                <div class="col-md-3">
-                    <button onclick="" class="btn btn-danger">结清</button>
                 </div>
             </div>
         </div>
+        <div class="col-md-4">
+            <div class="col-md-12">
+                <div class="box box-danger">
+                    <div class="box-body">
+                        <div class="col-md-12 form-group">
+                            <label>商品流水号:</label>
+                            <input type="text" class="form-control" list="sellList" id="sellPNO"/>
+                            <datalist id="sellList">
+
+                            </datalist>
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <label>商品数量:</label>
+                            <input type="number" class="form-control" id="sellPNum"/>
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <button onclick="" class="btn btn-info">添加</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="box box-danger">
+                    <div class="box-body">
+                        <div class="col-md-12">
+                            <label>收银</label>
+                            <input class="form-control" type="text" id="realPrice"/>
+                        </div>
+                        <div class="col-md-12">
+                            <button onclick="" class="btn btn-danger">结清</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
 <script>

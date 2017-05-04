@@ -52,5 +52,7 @@ public class SellDaoImp extends CommonDaoImp{
         String sql="select * from sells where sellSerial=?";
         return queryRunner.query(sql,new BeanListHandler<Sells>(Sells.class),sellsSerial.getSellSerial());
     }
+    //查看营业员业绩
+
 
 }

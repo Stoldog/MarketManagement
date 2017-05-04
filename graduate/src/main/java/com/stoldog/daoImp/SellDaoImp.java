@@ -6,6 +6,7 @@ import com.stoldog.utils.DataSourceUtils;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.apache.commons.dbutils.handlers.MapListHandler;
 import org.springframework.stereotype.Repository;
 
 import java.sql.SQLException;
@@ -53,6 +54,16 @@ public class SellDaoImp extends CommonDaoImp{
         return queryRunner.query(sql,new BeanListHandler<Sells>(Sells.class),sellsSerial.getSellSerial());
     }
     //查看营业员业绩
-
+    public List getSellSerialBySellman(Integer uid) throws SQLException {
+        QueryRunner queryRunner=new QueryRunner(DataSourceUtils.getDataSource());
+        String sql="SELECT * FROM sells_serial,users WHERE sells_serial.sellManId=users.uid sellManId=?";
+        return queryRunner.query(sql,new MapListHandler(),uid);
+    }
+    //查看某个月业绩
+    public List getSellSerialByMonth(Long beginTime,Long endTime) throws SQLException {
+        QueryRunner queryRunner=new QueryRunner(DataSourceUtils.getDataSource());
+        String sql="SELECT * FROM sells_serial WHERE sellTime>=? AND sellTime <=?";
+        return queryRunner.query(sql,new MapListHandler(),beginTime,endTime);
+    }
 
 }

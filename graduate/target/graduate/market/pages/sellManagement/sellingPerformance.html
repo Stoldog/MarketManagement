@@ -1,0 +1,87 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-danger">
+            <div class="box-header with-border">
+                <div class="pull-left">
+                    <button class="btn btn-success" onclick=""><i class=""></i>查询</button>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="col-md-3">
+                    <label>选择营业员:</label>
+                    <select class="form-control" id="userId">
+
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label>起始月份:</label>
+                    <input type="text"  class="form-control" id="startTime"/>
+                </div>
+                <div class="col-md-3">
+                    <label>结束月份:</label>
+                    <input type="text" class="form-control" id="endTime"/>
+                </div>
+            </div>
+            <div class="box">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <th>
+                                <button class="btn btn-link" title="销售批次号" data-toggle="tooltip" data-placement="top" style="color: #333333;font-weight: bold;font-family:微软雅黑;">
+                                    销售批次号
+                                </button>
+                            </th>
+                            <th>
+                                <button class="btn btn-link" title="销售人员" data-toggle="tooltip" data-placement="top" style="color: #333333;font-weight: bold;font-family:微软雅黑;">
+                                    销售员
+                                </button>
+                            </th>
+                            <th>
+                                <button class="btn btn-link" title="销售时间" data-toggle="tooltip" data-placement="top" style="color: #333333;font-weight: bold;font-family:微软雅黑;">
+                                    销售时间
+                                </button>
+                            </th>
+                            <th>
+                                <button class="btn btn-link" title="销售金额" data-toggle="tooltip" data-placement="top" style="color: #333333;font-weight: bold;font-family:微软雅黑;">
+                                    销售金额
+                                </button>
+                            </th>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        //获得营业员列表
+        $.ajax("/user/getSellManList",{
+            method:"GET",
+            contentType:"application/json ;charset=utf-8",
+            success:function (res) {
+                console.log(res);
+                //移除以前的节点
+                $("#userId").find('option').remove();
+                $(res.list).each(function () {
+                    $("#userId").append("<option value='"+this.uid+"'>"+this.username+"</option>");
+                });
+            }
+        });
+        $("#startTime").jeDate({
+            format:"YYYY-MM",
+            isTime:false,
+            minDate:"2014-09-19 00:00:00"
+        });
+
+        $('#endTime').jeDate({
+            format:"YYYY-MM",
+            isTime:false,
+            minDate:"2014-09-19 00:00:00"
+        });
+
+    });
+</script>

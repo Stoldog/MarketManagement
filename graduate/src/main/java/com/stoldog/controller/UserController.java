@@ -43,4 +43,9 @@ public class UserController {
         message.setList(list);
         return message;
     }
+    //获得营业员列表
+    @RequestMapping(value = {"/user/getSellManList"},method = {RequestMethod.GET})
+    public Message getSellManList() throws SQLException {
+        return userService.getSellManList();
+    }
 }

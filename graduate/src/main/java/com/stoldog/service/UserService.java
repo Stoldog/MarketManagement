@@ -22,11 +22,9 @@ public class UserService {
     @Autowired
     @Qualifier("userDao")
     private UserDaoImp userDao;
-
-    @Autowired
-    private Message message;
     //调用登录方法
     public Message userCheck(User user)  {
+      Message message=new Message();
         //查询数据
         User getUser;
         try {
@@ -42,6 +40,14 @@ public class UserService {
         message.setResult(true);
         message.setInfo("查询成功!");
         message.setIsPaged(false);
+        return message;
+    }
+    //查询所有的销售员
+    public Message getSellManList() throws SQLException {
+        //生成消息对象
+        Message message=new Message();
+        message.setList(userDao.getSellManList());
+        message.setResult(true);
         return message;
     }
 }

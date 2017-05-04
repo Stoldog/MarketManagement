@@ -1,8 +1,11 @@
 package com.stoldog.service;
 
 import com.stoldog.daoImp.SellDaoImp;
+import com.stoldog.daoImp.UserDaoImp;
+import com.stoldog.entity.Message;
 import com.stoldog.entity.Sells;
 import com.stoldog.entity.SellsSerial;
+import com.stoldog.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,5 +37,14 @@ public class SellsService {
     //插入商品列表
     public int[] addSellsList(List<Sells> sellsList,SellsSerial sellsSerial) throws SQLException {
         return sellDaoImp.addSellsBySerialNo(sellsList,sellsSerial);
+    }
+    //查询营业员业绩
+    public Message getSellSerialBySellMan(User user) throws SQLException {
+        //生成消息对象
+        Message message=new Message();
+        //执行查询
+        message.setList(sellDaoImp.getSellSerialBySellman(user.getUid()));
+        message.setResult(true);
+        return message;
     }
 }

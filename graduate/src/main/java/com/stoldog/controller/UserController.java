@@ -27,7 +27,6 @@ public class UserController {
         session.setAttribute("LOGINSTATUS",message.getResult());
         session.setAttribute("USER_ID",users.getUid());
         session.setAttribute("USER_NAME",users.getUsername());
-        session.setAttribute("PERMIT",users.getPermit());
         return message;
     }
     //
@@ -47,5 +46,26 @@ public class UserController {
     @RequestMapping(value = {"/user/getSellManList"},method = {RequestMethod.GET})
     public Message getSellManList() throws SQLException {
         return userService.getSellManList();
+    }
+    //获得职务键值对
+    @RequestMapping(value = {"/user/getDepartList"},method = {RequestMethod.GET})
+    public Message getDepartList() throws SQLException {
+        return userService.getDepartList();
+    }
+    //获得用户列表By职务
+    @RequestMapping(value = {"/user/getUserByDepartType/{departType}"},method = {RequestMethod.GET})
+    public Message getUserByDepartType(@PathVariable Integer departType) throws SQLException {
+        //判断是否是查询所有的
+        return userService.getUserByDepartType(departType);
+    }
+    //修改用户
+    @RequestMapping(value = {"/user/editUser"},method = {RequestMethod.POST})
+    public Message editUser(@RequestBody User user) throws SQLException {
+        return userService.editUser(user);
+    }
+    //删除用户
+    @RequestMapping(value = {"/user/delUser/{uid}"},method = {RequestMethod.GET})
+    public Message editUser(@PathVariable Integer uid) throws SQLException {
+        return userService.delUser(uid);
     }
 }

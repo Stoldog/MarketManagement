@@ -50,4 +50,49 @@ public class UserService {
         message.setResult(true);
         return message;
     }
+    //查询职务列表
+    public Message getDepartList() throws SQLException {
+        //生成消息对象
+        Message message=new Message();
+        message.setList(userDao.getDepartList());
+        return message;
+    }
+    //查询用户
+    public Message getUserByDepartType(Integer departType) throws SQLException {
+        //生成消息对象
+        Message message=new Message();
+        if(departType==-1){
+            message.setList(userDao.getAllUsers());
+        }else {
+            message.setList(userDao.getUsersByDepartType(departType));
+        }
+        message.setResult(true);
+        return message;
+    }
+    //编辑用户
+    public Message editUser(User user) throws SQLException {
+        //生成消息对象
+        Message message=new Message();
+        //修改用户
+        Integer getRes=userDao.editUser(user);
+        if(getRes!=0){
+            message.setResult(true);
+        }else {
+            message.setResult(false);
+        }
+        return message;
+    }
+    //删除用户
+    public Message delUser(Integer uid) throws SQLException {
+        //生成消息对象
+        Message message=new Message();
+        //修改用户
+        Integer getRes=userDao.delUser(uid);
+        if(getRes!=0){
+            message.setResult(true);
+        }else {
+            message.setResult(false);
+        }
+        return message;
+    }
 }

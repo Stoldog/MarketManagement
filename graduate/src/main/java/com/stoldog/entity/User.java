@@ -10,7 +10,8 @@ public class User {
     private String sex;
     private String tel;
     private String department;
-    private Integer permit;
+    private Integer departType;
+    private String email;
 
     public Integer getUid() {
         return uid;
@@ -58,12 +59,20 @@ public class User {
         this.department = department;
     }
 
-    public Integer getPermit() {
-        return permit;
+    public Integer getDepartType() {
+        return departType;
     }
 
-    public void setPermit(Integer permit) {
-        this.permit = permit;
+    public void setDepartType(Integer departType) {
+        this.departType = departType;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Override
@@ -75,7 +84,8 @@ public class User {
                 ", sex='" + sex + '\'' +
                 ", tel='" + tel + '\'' +
                 ", department='" + department + '\'' +
-                ", permit=" + permit +
+                ", departType=" + departType +
+                ", email='" + email + '\'' +
                 '}';
     }
 }

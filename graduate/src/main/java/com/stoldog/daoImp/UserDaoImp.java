@@ -15,7 +15,7 @@ import java.util.List;
  */
 @Repository("userDao")
 public class UserDaoImp extends CommonDaoImp{
-    //查询用户
+    //比对用户
     public User userCheck(User user) throws SQLException {
         String sql="SELECT * FROM users WHERE username=? AND PASSWORD=?";
         QueryRunner runner=new QueryRunner(DataSourceUtils.getDataSource());
@@ -28,5 +28,35 @@ public class UserDaoImp extends CommonDaoImp{
         QueryRunner queryRunner=new QueryRunner(DataSourceUtils.getDataSource());
         String sql="SELECT uid,username FROM users WHERE departType=2";
         return queryRunner.query(sql,new MapListHandler());
+    }
+    //查询所有的职务
+    public List getDepartList() throws SQLException {
+        QueryRunner queryRunner=new QueryRunner(DataSourceUtils.getDataSource());
+        String sql="select departName,departValue from departType where departValue>0";
+        return queryRunner.query(sql,new MapListHandler());
+    }
+    //查询所有的用户
+    public List getAllUsers() throws SQLException {
+        QueryRunner queryRunner=new QueryRunner(DataSourceUtils.getDataSource());
+        String sql="select * from users";
+        return queryRunner.query(sql,new MapListHandler());
+    }
+    //查询所有的用户By职务
+    public List getUsersByDepartType(Integer departType) throws SQLException {
+        QueryRunner queryRunner=new QueryRunner(DataSourceUtils.getDataSource());
+        String sql="select * from users where departType=?";
+        return queryRunner.query(sql,new MapListHandler(),departType);
+    }
+    //修改用户
+    public Integer editUser(User user) throws SQLException {
+        QueryRunner queryRunner=new QueryRunner(DataSourceUtils.getDataSource());
+        String sql="update users set username=?,password=?,sex=?,tel=?,email=?,department=?,departType=? where uid=?";
+        return queryRunner.update(sql,user.getUsername(),user.getPassword(),user.getSex(),user.getTel(),user.getEmail(),user.getDepartment(),user.getDepartType(),user.getUid());
+    }
+
+    public Integer delUser(Integer uid) throws SQLException {
+        QueryRunner queryRunner=new QueryRunner(DataSourceUtils.getDataSource());
+        String sql="delete from users where uid=?";
+        return queryRunner.update(sql,uid);
     }
 }

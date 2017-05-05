@@ -31,6 +31,10 @@
     <link rel="stylesheet" href="../plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
     <!--jeDate-->
     <link rel="stylesheet" href="../plugins/jeDate/skin/jedate.css">
+    <!--gDialog-->
+    <link rel="stylesheet" href="../plugins/gDialog/css/animate.min.css">
+    <link rel="stylesheet" href="../plugins/gDialog/css/jquery.gDialog.css">
+
     <style>
         table
         {
@@ -332,10 +336,10 @@
                 <li class="header">首页</li>
                 <li class="treeview">
                     <a href="#">
-                        <i class="fa fa-shopping-cart"></i>
+                        <i class="fa fa-laptop"></i>
                         <span>销售管理</span>
                         <span class="pull-right-container">
-                            <i class=" pull-right"></i>
+                            <i class="fa fa-angle-left pull-right"></i>
                         </span>
                     </a>
                     <ul class="treeview-menu">
@@ -345,10 +349,10 @@
                 </li>
                 <li class="treeview">
                     <a href="#">
-                        <i class="fa fa-truck"></i>
+                        <i class="fa fa-laptop"></i>
                         <span>仓库管理</span>
                         <span class="pull-right-container">
-                            <i class=" pull-right"></i>
+                            <i class="fa fa-angle-left pull-right"></i>
                         </span>
                     </a>
                     <ul class="treeview-menu">
@@ -361,13 +365,13 @@
                 <li class="treeview">
                     <a href="#">
                         <i class="fa fa-laptop"></i>
-                        <span>UI Elements</span>
+                        <span>人员管理</span>
                         <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="pages/UI/general.html"><i class="fa fa-circle-o"></i> General</a></li>
+                        <li onclick="loadPages('/market/pages/userManagement/userList.html',this)"><a href="#"><i class="fa fa-circle-o"></i> 人员列表</a></li>
                         <li><a href="pages/UI/icons.html"><i class="fa fa-circle-o"></i> Icons</a></li>
                         <li><a href="pages/UI/buttons.html"><i class="fa fa-circle-o"></i> Buttons</a></li>
                         <li><a href="pages/UI/sliders.html"><i class="fa fa-circle-o"></i> Sliders</a></li>
@@ -616,6 +620,8 @@
 <script src="../plugins/jeDate/jquery.jedate.min.js"></script>
 <!--twbpagetion-->
 <script src="../plugins/twbpagenation/jquery.twbsPagination.min.js"></script>
+<!--gDialog-->
+<script src="../plugins/gDialog/js/jquery.gDialog.min.js"></script>
 <!--省市联动插件-->
 <script src="../plugins/Distpicker/js/distpicker.js"></script>
 <script src="../plugins/Distpicker/js/distpicker.data.js"></script>

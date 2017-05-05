@@ -1,5 +1,6 @@
 package com.stoldog.daoImp;
 
+import com.stoldog.entity.Pages;
 import com.stoldog.entity.Sells;
 import com.stoldog.entity.SellsSerial;
 import com.stoldog.utils.DataSourceUtils;
@@ -53,17 +54,12 @@ public class SellDaoImp extends CommonDaoImp{
         String sql="select * from sells where sellSerial=?";
         return queryRunner.query(sql,new BeanListHandler<Sells>(Sells.class),sellsSerial.getSellSerial());
     }
-    //查看营业员业绩
-    public List getSellSerialBySellman(Integer uid) throws SQLException {
-        QueryRunner queryRunner=new QueryRunner(DataSourceUtils.getDataSource());
-        String sql="SELECT * FROM sells_serial,users WHERE sells_serial.sellManId=users.uid sellManId=?";
-        return queryRunner.query(sql,new MapListHandler(),uid);
-    }
     //查看某个月业绩
-    public List getSellSerialByMonth(Long beginTime,Long endTime) throws SQLException {
+    public List getSellSerialByMonth(Long beginTime, Long endTime, Integer userId, Pages pages) throws SQLException {
         QueryRunner queryRunner=new QueryRunner(DataSourceUtils.getDataSource());
-        String sql="SELECT * FROM sells_serial WHERE sellTime>=? AND sellTime <=?";
-        return queryRunner.query(sql,new MapListHandler(),beginTime,endTime);
+        String sql="SELECT sells_serial.sellSerial,users.username,sells_serial.sellTime,sells_serial.sellTotalPrice FROM sells_serial,users WHERE  sellTime>=? AND sellTime <=? AND users.uid=? AND users.uid=sells_serial.sellManId ";
+        return queryRunner.query(sql,new MapListHandler(),beginTime,endTime,userId);
     }
+
 
 }

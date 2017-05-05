@@ -3,7 +3,8 @@
         <div class="box box-danger collapsed-box">
             <div class="box-header with-border">
                 <div class="pull-left">
-                    <button class="btn btn-success" onclick=""><i class=""></i>查询</button>
+                    <button class="btn btn-success" onclick="searchSellManPerformance()"><i class=""></i>查询</button>
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
                 </div>
             </div>
             <div class="box-body">
@@ -14,8 +15,12 @@
                     </select>
                 </div>
                 <div class="col-md-3">
-                    <label>起始月份:</label>
+                    <label>起始日期:</label>
                     <input type="text"  class="form-control" id="startTime"/>
+                </div>
+                <div class="col-md-3">
+                    <label>结束日期:</label>
+                    <input type="text"  class="form-control" id="endTime"/>
                 </div>
             </div>
             <div class="box">
@@ -47,6 +52,9 @@
 
                         </tbody>
                     </table>
+                    <div>
+                        <ul id="pagination-demo" class="pagination-sm"></ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -68,13 +76,12 @@
             }
         });
         $("#startTime").jeDate({
-            format:"YYYY-MM",
+            format:"YYYY/MM/DD",
             isTime:false,
             minDate:"2014-09-19 00:00:00"
         });
-
-        $('#endTime').jeDate({
-            format:"YYYY-MM",
+        $("#endTime").jeDate({
+            format:"YYYY/MM/DD",
             isTime:false,
             minDate:"2014-09-19 00:00:00"
         });
@@ -82,7 +89,18 @@
     });
 
     function searchSellManPerformance() {
-        var startTime;
+        var startTime=new Date($("#startTime").val()).getTime();
+        var endTime=new Date($("#endTime").val()).getTime();
+        var uid=$("#userId").val();
+
+        console.log(startTime)
+        $.ajax("/sell/sellPerformance/"+uid+"/"+startTime+"/"+endTime+"/1",{
+            method:"GET",
+            contentType:"application/json ;charset=utf-8",
+            success:function (res) {
+                console.log(res);
+            }
+        });
 
     }
 </script>

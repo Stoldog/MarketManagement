@@ -33,11 +33,11 @@ public class Pages {
     }
 
     //计算总数
-    public Long calPageNum(Long a){
+    public void calPageNum(Long a){
         if(a%10==0){
-            return a/10;
+            pageNum= a/10;
         }else {
-            return a/10+1;
+            pageNum= a/10+1;
         }
     }
     public Integer calCurPage(){

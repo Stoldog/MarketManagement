@@ -37,8 +37,7 @@ public class RepertoryService {
         //生成消息对象
         Message message=new Message();
         List o=new ArrayList();
-        Long pageNum=pages.calPageNum(repertoryDaoImp.getTableCount("repertory"));
-        pages.setPageNum(pageNum);
+        pages.calPageNum(repertoryDaoImp.getTableCount("repertory"));
 
         if(object.getEnterSerialNo()!=null&&object.getProductNum()==null){
             o=repertoryDaoImp.getRepertoryByEnterSerialNo(object,pages);

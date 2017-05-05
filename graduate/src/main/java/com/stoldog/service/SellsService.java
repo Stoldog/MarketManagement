@@ -2,10 +2,7 @@ package com.stoldog.service;
 
 import com.stoldog.daoImp.SellDaoImp;
 import com.stoldog.daoImp.UserDaoImp;
-import com.stoldog.entity.Message;
-import com.stoldog.entity.Sells;
-import com.stoldog.entity.SellsSerial;
-import com.stoldog.entity.User;
+import com.stoldog.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,12 +36,17 @@ public class SellsService {
         return sellDaoImp.addSellsBySerialNo(sellsList,sellsSerial);
     }
     //查询营业员业绩
-    public Message getSellSerialBySellMan(User user) throws SQLException {
+    public Message getSellSerialBySellMan(Long startTime,Long endTime,Integer uid,Integer curPage) throws SQLException {
         //生成消息对象
         Message message=new Message();
+        Pages pages=new Pages();
+        pages.setCurPage(curPage);
         //执行查询
-        message.setList(sellDaoImp.getSellSerialBySellman(user.getUid()));
+        List sellSeriallist=sellDaoImp.getSellSerialByMonth(startTime,endTime,uid,pages);
+        message.setList(sellSeriallist);
         message.setResult(true);
+        pages.calPageNum((long) sellSeriallist.size());
+        message.setPage(pages);
         return message;
     }
 }

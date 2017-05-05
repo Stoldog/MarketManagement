@@ -45,4 +45,9 @@ public class SellsController {
         }
 
     }
+    //销售业绩
+    @RequestMapping(value = {"/sellPerformance/{uid}/{startTime}/{endTime}/{curPage}"},method = {RequestMethod.GET})
+    public Message getSellingPerformance(@PathVariable Integer uid,@PathVariable Long startTime,@PathVariable Long endTime,@PathVariable Integer curPage) throws SQLException {
+        return sellsService.getSellSerialBySellMan(startTime,endTime,uid,curPage);
+    }
 }

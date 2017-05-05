@@ -87,7 +87,7 @@
         });
 
     });
-
+    //查询业绩
     function searchSellManPerformance() {
         var startTime=new Date($("#startTime").val()).getTime();
         var endTime=new Date($("#endTime").val()).getTime();
@@ -99,8 +99,23 @@
             contentType:"application/json ;charset=utf-8",
             success:function (res) {
                 console.log(res);
+                //删除之前的节点
+                $("tbody").find("tr").remove();
+                //查看节点
+                if(res.list.length==0){
+                    $('tbody').append("<tr><td colspan='4'>未查询到数据</td></tr>");
+                }else {
+                    $(res.list).each(function () {
+                        $('tbody').append("<tr><td>"+this.sellSerial+"</td><td>"+this.username+"</td><td>"+new Date(this.sellTime).toJSON().replace("T"," ")+"</td><td>"+this.sellTotalPrice+"</td></tr>");
+                    });
+                }
+
             }
         });
 
+    }
+    //增强可读性
+    function getGoodSellTime(getTime) {
+        var goodTime=Date.parse(new Date(getTime))
     }
 </script>

@@ -28,15 +28,15 @@ public class ProductDaoImp extends CommonDaoImp{
         Object[][] param= new Object[listLength][];
         //设置传入参数
         for(int i = 0 ; i < listLength ; i++){
-            param[i]= new Object[7];
-            param[i][0] = productInfolist.get(i).getProductName();
+            param[i]= new Object[8];
+            param[i][0] = productInfolist.get(i).getProductName().toString();
             param[i][1] = productInfolist.get(i).getStockPrice();
             param[i][2] = productInfolist.get(i).getEffectTime();
             param[i][3] = productInfolist.get(i).getProductType();
             param[i][4] = productInfolist.get(i).getMarketPrice();
-            param[i][5] = productInfolist.get(i).getProductUnit();
-            param[i][6] = productInfolist.get(i).getProductCity();
-            param[i][7] = productInfolist.get(i).getProductCompany();
+            param[i][5] = productInfolist.get(i).getProductUnit().toString();
+            param[i][6] = productInfolist.get(i).getProductCity().toString();
+            param[i][7] = productInfolist.get(i).getProductCompany().toString();
         }
         //执行并返回批量处理
         return queryRunner.batch(sql,param);

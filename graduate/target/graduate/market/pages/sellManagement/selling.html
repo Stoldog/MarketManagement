@@ -68,6 +68,12 @@
                             <input type="number" min="0" value="0" class="form-control" readonly="readonly" id="realGive">
                         </div>
                     </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>总数量:</label>
+                            <input type="number" min="0" class="form-control" readonly="readonly" value="0" id="totalProductNum">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -134,6 +140,7 @@
             return;
         }
         var total=$("#totalProduct").val();
+        var totalProductNum=$("#totalProductNum").val();
         //发送请求获得商品列表
         $.ajax("/repertory/getRepertoryBySerial/"+sellPNO,{
             method:"GET",
@@ -146,7 +153,7 @@
                 $(res.list).each(function () {
                     var dataTemp={
                         "productId":this.productId,
-                        "productMarketPrice":this.markertPrice,
+                        "productMarketPrice":this.marketPrice,
                         "sellNum":parseInt(sellPNum),
                         "productTotalPrice":sellPNum*this.marketPrice,
                         "productSerialNo":this.productSerialNo
@@ -154,7 +161,10 @@
                    $('tbody').append("<tr><td><input type='checkbox' checked='true' value='"+JSON.stringify(dataTemp)+"'/></td><td>"+this.productSerialNo+"</td><td>"+this.productName+"</td><td>"+this.marketPrice+"元</td><td>"+this.productNum+this.productUnit+"</td><td>"+sellPNum+this.productUnit+"</td><td>"+(sellPNum*this.marketPrice)+"元</td></tr>");
                 });
                 var priceA=parseInt(total)+(res.list[0].marketPrice*sellPNum);
+                var totalNumA=parseInt(totalProductNum)+parseInt(sellPNum);
                 $("#totalProduct").val(priceA);
+                $("#totalProductNum").val(totalNumA);
+
                 console.log(priceA);
             }
         });
@@ -169,10 +179,19 @@
             $("#realGive").val(0);
         }
     }
-
+    function calTotal(getTotalNum) {
+        var gmo=$(getTotalNum).val();
+        var tmoney=$("#totalProduct").val();
+        $("#realGet").val(gmoney);
+        $("#realGive").val((gmoney-tmoney).toFixed(1));
+        if(gmoney==0){
+            $("#realGive").val(0);
+        }
+    }
     function sellProduct() {
         var realTotal=$("#totalProduct").val();
         var date=new Date().getTime();
+        var totalNum=$("#totalProductNum").val();
         var obj=[];
         //获得所有checkbox下的
         $("tbody tr").find("input").each(function () {
@@ -183,14 +202,14 @@
         console.log(obj);
         console.log(realTotal);
         //发送请求卖出货物
-        /*$.ajax("/sell/sellProduct/"+date+"/"+realTotal,{
+        $.ajax("/sell/sellProduct/"+date+"/"+realTotal+"/"+totalNum,{
             method:"POST",
             data:JSON.stringify(obj),
             contentType:"application/json; charset=UTF-8",
             success:function (res) {
                 console.log(res);
-
+                $("#contentBody").load(baseUrl+"/market/pages/sellManagement/selling.html");
             }
-        });*/
+        });
     }
 </script>

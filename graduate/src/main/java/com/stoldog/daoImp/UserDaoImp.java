@@ -1,10 +1,12 @@
 package com.stoldog.daoImp;
 
 
+import com.stoldog.entity.Menus;
 import com.stoldog.entity.User;
 import com.stoldog.utils.DataSourceUtils;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanHandler;
+import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.dbutils.handlers.MapListHandler;
 import org.springframework.stereotype.Repository;
 import java.sql.SQLException;
@@ -53,10 +55,23 @@ public class UserDaoImp extends CommonDaoImp{
         String sql="update users set username=?,password=?,sex=?,tel=?,email=?,department=?,departType=? where uid=?";
         return queryRunner.update(sql,user.getUsername(),user.getPassword(),user.getSex(),user.getTel(),user.getEmail(),user.getDepartment(),user.getDepartType(),user.getUid());
     }
-
+    //删除用户
     public Integer delUser(Integer uid) throws SQLException {
         QueryRunner queryRunner=new QueryRunner(DataSourceUtils.getDataSource());
         String sql="delete from users where uid=?";
         return queryRunner.update(sql,uid);
+    }
+    //查询权限
+    public List<Menus> getPermit() throws SQLException {
+        QueryRunner queryRunner=new QueryRunner(DataSourceUtils.getDataSource());
+        //查询出所有的父节点
+        String sql="SELECT * FROM permit WHERE isFather=1";
+        List<Menus> menusList=  queryRunner.query(sql,new BeanListHandler<Menus>(Menus.class));
+        Integer listlength2=menusList.size();
+        for(int i=0;i<listlength2;i++){
+            String sql2="SELECT * FROM permit WHERE fatherPid=?";
+            menusList.get(i).setMenusList(queryRunner.query(sql2,new BeanListHandler<Menus>(Menus.class),menusList.get(i).getPid()));
+        }
+        return menusList;
     }
 }

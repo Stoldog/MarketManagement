@@ -1,0 +1,96 @@
+<div class="row">
+    <div class="col-md-6">
+        <div class="box box-info collapsed-box">
+            <div class="box-header with-border">
+                <div class="pull-left">
+                    <button class="btn btn-success" onclick="getSellManCharts()" id=""><i></i>查询</button>
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="col-md-3">
+                    <label>起始日期:</label>
+                    <input type="text"  class="form-control" id="startTime"/>
+                </div>
+                <div class="col-md-3">
+                    <label>结束日期:</label>
+                    <input type="text"  class="form-control" id="endTime"/>
+                </div>
+            </div>
+            <div class="box">
+                <div id="chartContainer1" style="height: 500px; width: 100%;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="box box-danger with-border">
+            <div class="box-header"></div>
+            <div class="box-body">
+                <canvas id="Chart" width="600px" height="500px"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="box box-primary with-border">
+            <div class="box-header"></div>
+            <div class="box-body"></div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="box box-success with-border">
+            <div class="box-header"></div>
+            <div class="box-body"></div>
+        </div>
+    </div>
+</div>
+<script>
+   $(function () {
+       //初始化日期
+       $("#startTime").jeDate({
+           format:"YYYY/MM/DD",
+           isTime:false,
+           minDate:"2014-09-19 00:00:00"
+       });
+       $("#endTime").jeDate({
+           format:"YYYY/MM/DD",
+           isTime:false,
+           minDate:"2014-09-19 00:00:00"
+       });
+       var chart = new CanvasJS.Chart("chartContainer1", {
+           title:{text: "My First Chart in CanvasJS"},
+           data: [{
+                   type: "column",
+                   dataPoints: [
+                       { label: "一月",  y: 10  },
+                       { label: "二月",  y: 20  },
+                       { label: "三月",  y: 35  },
+                       { label: "四月",  y: 42  },
+                       { label: "五月",  y: 66  },
+                       { label: "六月",  y: 88  },
+                       { label: "七月",  y: 46  },
+                       { label: "八月",  y: 96  },
+                       { label: "九月",  y: 77  },
+                       { label: "十月",  y: 64  },
+                       { label: "十一月",  y: 32  },
+                       { label: "十二月",  y: 78  }
+
+                   ]
+               }]
+       });
+       chart.render();
+       $("#chartContainer1").find("a").hide();
+   });
+
+   function getSellManCharts() {
+       var startTime=new Date($("#startTime").val()).getTime();
+       var endTime=new Date($("#endTime").val()).getTime();
+
+       $.ajax("/sell//sellChart/"+startTime+"/"+endTime,{
+           method:"GET",
+           contentType:"application/json; chartset=utf-8",
+           success:function (res) {
+               console.log(res)
+           }
+       });
+   }
+</script>

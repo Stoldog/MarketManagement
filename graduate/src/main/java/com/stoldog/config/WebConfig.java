@@ -25,8 +25,8 @@ public class WebConfig extends WebMvcConfigurerAdapter{
     public ViewResolver viewResolver(){
         InternalResourceViewResolver viewResolver=new InternalResourceViewResolver();
         //设置解析路径
-        viewResolver.setPrefix("WEB-INF/pages/");
-        viewResolver.setSuffix(".jsp");
+        viewResolver.setPrefix("market/pages/");
+        viewResolver.setSuffix(".html");
         viewResolver.setExposeContextBeansAsAttributes(true);
         return viewResolver;
     }

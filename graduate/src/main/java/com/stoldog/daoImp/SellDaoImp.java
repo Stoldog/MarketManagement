@@ -3,6 +3,7 @@ package com.stoldog.daoImp;
 import com.stoldog.entity.Pages;
 import com.stoldog.entity.Sells;
 import com.stoldog.entity.SellsSerial;
+import com.stoldog.entity.User;
 import com.stoldog.utils.DataSourceUtils;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanHandler;
@@ -21,8 +22,8 @@ public class SellDaoImp extends CommonDaoImp{
     //插入商品批次表
     public Integer setSellsSerial(SellsSerial sellsSerial){
         QueryRunner queryRunner=new QueryRunner(DataSourceUtils.getDataSource());
-        String sql="insert into sells_serial (sellSerial,sellTime,sellManId,sellTotalPrice) values(?,?,?,?)";
-        Object [] params={sellsSerial.getSellSerial(),sellsSerial.getSellTime(),sellsSerial.getSellManId(),sellsSerial.getSellTotalPrice()};
+        String sql="insert into sells_serial (sellSerial,sellTime,sellManId,sellTotalPrice,sellTotalNum) values(?,?,?,?,?)";
+        Object [] params={sellsSerial.getSellSerial(),sellsSerial.getSellTime(),sellsSerial.getSellManId(),sellsSerial.getSellTotalPrice(),sellsSerial.getTotalNum()};
         try {
             return queryRunner.update(sql,params);
         } catch (SQLException e) {
@@ -60,6 +61,17 @@ public class SellDaoImp extends CommonDaoImp{
         String sql="SELECT sells_serial.sellSerial,users.username,sells_serial.sellTime,sells_serial.sellTotalPrice FROM sells_serial,users WHERE  sellTime>=? AND sellTime <=? AND users.uid=? AND users.uid=sells_serial.sellManId ";
         return queryRunner.query(sql,new MapListHandler(),beginTime,endTime,userId);
     }
-
+    //查询某季度的销售额和总数
+    public List getSellManChartsByMonth(Long startTime,Long endTime) throws SQLException {
+        QueryRunner queryRunner=new QueryRunner(DataSourceUtils.getDataSource());
+        String sql="SELECT SUM(sellTotalPrice),SUM(sellTotalNum) FROM sells_serial WHERE sellTime>=? AND sellTime<=? ";
+        return queryRunner.query(sql,new MapListHandler(),startTime,endTime);
+    }
+    //查询这个月热销产品和种类
+    public List getHotSellChart(Long startTime,Long endTime) throws SQLException {
+        QueryRunner queryRunner=new QueryRunner(DataSourceUtils.getDataSource());
+        String sql="SELECT product_info.productName,SUM(sells.sellNum) AS sellTotalNum FROM sells,sells_serial,product_info WHERE product_info.pid=sells.productId AND sells.sellSerial = sells_serial.sellSerial   AND sells_serial.sellTime >= ?  AND sells_serial.sellTime <= ? GROUP BY  productId";
+        return queryRunner.query(sql,new MapListHandler(),startTime,endTime);
+    }
 
 }

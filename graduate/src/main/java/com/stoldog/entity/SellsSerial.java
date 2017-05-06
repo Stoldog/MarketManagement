@@ -9,6 +9,7 @@ public class SellsSerial {
     private Long sellTime;
     private Integer sellManId;
     private Double sellTotalPrice;
+    private Integer totalNum;
 
     public String getSellSerial() {
         return sellSerial;
@@ -42,13 +43,22 @@ public class SellsSerial {
         this.sellTotalPrice = sellTotalPrice;
     }
 
+    public Integer getTotalNum() {
+        return totalNum;
+    }
+
+    public void setTotalNum(Integer totalNum) {
+        this.totalNum = totalNum;
+    }
+
     @Override
     public String toString() {
         return "SellsSerial{" +
-                "sellSerial=" + sellSerial +
+                "sellSerial='" + sellSerial + '\'' +
                 ", sellTime=" + sellTime +
                 ", sellManId=" + sellManId +
                 ", sellTotalPrice=" + sellTotalPrice +
+                ", totalNum=" + totalNum +
                 '}';
     }
 }

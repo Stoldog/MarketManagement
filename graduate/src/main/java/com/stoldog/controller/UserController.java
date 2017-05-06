@@ -15,7 +15,7 @@ import java.util.List;
  * Created by RL on 2017/4/7.
  */
 @RestController
-@SessionAttributes({"LOGINSTATUS","PERMIT","USER_NAME","USER_ID"})
+@SessionAttributes({"LOGINSTATUS","USER_NAME","USER_ID"})
 public class UserController {
     @Autowired
     private UserService userService;
@@ -67,5 +67,29 @@ public class UserController {
     @RequestMapping(value = {"/user/delUser/{uid}"},method = {RequestMethod.GET})
     public Message editUser(@PathVariable Integer uid) throws SQLException {
         return userService.delUser(uid);
+    }
+    //获得菜单
+    @RequestMapping(value = {"/manage/getMenus"},method = {RequestMethod.GET})
+    public Message getMenus(HttpSession session) throws SQLException {
+        Boolean b= (Boolean) session.getAttribute("LOGINSTATUS");
+        if(!b){
+            Message message=new Message();
+            message.setInfo("请登录！");
+            message.setResult(false);
+            return message;
+        }else {
+            return userService.getMenus();
+        }
+    }
+    //注销并
+    @RequestMapping(value = {"/logOff"},method = {RequestMethod.GET})
+    public Message logOff(HttpSession session){
+        //生成消息对象
+        Message message=new Message();
+        session.setAttribute("LOGINSTATUS",false);
+        session.setAttribute("USER_NAME","");
+        session.setAttribute("USER_ID","");
+        message.setResult(true);
+        return message;
     }
 }

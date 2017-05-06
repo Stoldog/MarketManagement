@@ -23,8 +23,8 @@ public class SellsController {
     @Autowired
     private RepertoryService repertoryService;
     //销售
-    @RequestMapping(value = {"/sellProduct/{dateTime}/{totalPrice}"},method = {RequestMethod.POST})
-    public Message sellingProduct(@PathVariable Long dateTime, @PathVariable Double totalPrice, @RequestBody List<Sells> sellsList, HttpSession httpSession) throws SQLException {
+    @RequestMapping(value = {"/sellProduct/{dateTime}/{totalPrice}/{totalNum}"},method = {RequestMethod.POST})
+    public Message sellingProduct(@PathVariable Long dateTime, @PathVariable Double totalPrice, @RequestBody List<Sells> sellsList,@PathVariable Integer totalNum, HttpSession httpSession) throws SQLException {
 
         //生产唯一ID并插入批次表
 
@@ -32,7 +32,7 @@ public class SellsController {
         SellsSerial sellsSerial=new SellsSerial();
         sellsSerial.setSellSerial(sellsService.getUUID());
         sellsSerial.setSellManId(userID);
-        Integer getRe=sellsService.addSellSerial(sellsSerial.getSellSerial(),sellsSerial.getSellManId(),dateTime,totalPrice);
+        Integer getRe=sellsService.addSellSerial(sellsSerial.getSellSerial(),sellsSerial.getSellManId(),dateTime,totalPrice,totalNum);
         //执行销售操作
         if(getRe!=0){
             //新增销售操作
@@ -50,4 +50,15 @@ public class SellsController {
     public Message getSellingPerformance(@PathVariable Integer uid,@PathVariable Long startTime,@PathVariable Long endTime,@PathVariable Integer curPage) throws SQLException {
         return sellsService.getSellSerialBySellMan(startTime,endTime,uid,curPage);
     }
+    //返回销售业绩图表数据
+    @RequestMapping(value = {"/sellChart/{startTime}/{endTime}"},method = {RequestMethod.GET})
+    public Message getSellChartByMonth(@PathVariable Long startTime,@PathVariable Long endTime) throws SQLException {
+        return sellsService.getPerformanceByMonth(startTime, endTime);
+    }
+    //获得热销的产品和数量
+    @RequestMapping(value = {"/hotSellChart/{startTime}/{endTime}"},method = {RequestMethod.GET})
+    public Message getHotSellChart(@PathVariable Long startTime,@PathVariable Long endTime) throws SQLException {
+        return sellsService.getHotSellChart(startTime,endTime);
+    }
+
 }

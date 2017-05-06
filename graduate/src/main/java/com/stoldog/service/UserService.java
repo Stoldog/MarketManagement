@@ -95,4 +95,13 @@ public class UserService {
         }
         return message;
     }
+    //获得菜单
+    public Message getMenus() throws SQLException {
+        //生成消息对象
+        Message message=new Message();
+        List list=userDao.getPermit();
+        message.setList(list);
+        message.setResult(true);
+        return message;
+    }
 }
